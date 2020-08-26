@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class IndexController {
     @RequestMapping("/index")
     public String index(){
+        System.out.println("修改");
         return "index";
     }
 }
