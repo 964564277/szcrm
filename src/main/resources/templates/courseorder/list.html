@@ -2,36 +2,81 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>惜年画IT工作室</title>
+    <title>Layui</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="format-detection" content="telephone=no">
-
-    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all">
-    <script th:src="@{/static/layui/layui.js}" charset="utf-8"></script>
-
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" media="all">
+    <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
-<body class="layui-layout-body">
-套餐列表
-<script>
-    //JavaScript代码区域
-    layui.use('element', function(){
-        var element = layui.element;
+<body>
 
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //温馨提示：默认由前端自动合计当前行数据。从 layui 2.5.6 开始： 若接口直接返回了合计行数据，则优先读取接口合计行数据。
+        //详见：https://www.layui.com/doc/modules/table.html#totalRow
+        table.render({
+            elem: '#test'
+            ,url:'/courseorder/listJson'
+            ,toolbar: '#toolbarDemo'
+            ,title: '用户数据表'
+            ,totalRow: true
+            ,cols: [
+                [
+                {type: 'checkbox', fixed: 'left'}
+               // ,{field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true, totalRowText: '合计'}
+                ,{field:'name', title:'名字', width:120, edit: 'text'}
+                ,{field:'wechat_nowechat_mark', title:'微信备注', width:120, edit: 'text'}
+                ,{field:'wechat_no', title:'微信ID', width:120, edit: 'text'}
+                ,{field:'qq_no', title:'QQ号', width:120, edit: 'text'}
+                ,{field:'course_name', title:'购买课程', width:120, edit: 'text'}
+                ,{field:'course_price', title:'价格', width:120, edit: 'text'}
+                ,{field:'order_date', title:'订单日期', width:120, edit: 'text'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+            ]
+            ]
+            ,page: true
+        });
+
+        //工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选')
+                    break;
+            };
+        });
     });
 </script>
-<script>
-    var _hmt = _hmt || [];
-    (function() {
-        var hm = document.createElement("script");
-        hm.src = "https://hm.baidu.com/hm.js?d214947968792b839fd669a4decaaffc";
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(hm, s);
-    })();
-</script>
+
 </body>
 </html>

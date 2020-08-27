@@ -1,0 +1,11 @@
+<?xml  version="1.0"  encoding ="UTF-8" ?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper  3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gyf.szcrm.mapper.CourseOrderMapper">
+        <select id="findCountByMap" parameterType="map" resultType="int">
+                select count(*)from t_course_order;
+        </select>
+        <select id="findListByMap" parameterType="map" resultType="courseOrder">
+                select*from t_course_order;
+        </select>
+</mapper>
