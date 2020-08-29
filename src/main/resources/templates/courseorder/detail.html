@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+</head>
+<body>
+
+<form class="layui-form" action="" id="form1">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-inline">
+                <input type="text" name="name" th:value="${order.name}" readonly="readonly" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">WeChat号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="wechat_no" th:value="${order.wechat_no}" readonly="readonly" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">WeChat备注</label>
+            <div class="layui-input-inline">
+                <input type="text" name="wechat_mark" th:value="${order.wechat_mark}" readonly="readonly" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">QQ</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="qq_no" th:value="${order.qq_no}" readonly="readonly"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">手机</label>
+            <div class="layui-input-inline">
+                <input type="text" name="tel" th:value="${order.tel}" readonly="readonly" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">购买课程</label>
+            <div class="layui-input-inline">
+                <input type="text" name="course_name" th:value="${order.course_name}" readonly="readonly" autocomplete="off" class="layui-input">
+
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">购买价格</label>
+            <div class="layui-input-inline">
+                <input type="text" name="course_price" th:value="${order.course_price}" readonly="readonly" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">购买日期</label>
+            <div class="layui-input-inline">
+                <input type="text" name="order_date" th:value="${order.order_date}" readonly="readonly" id="order_date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+<!--    <div class="layui-form-item">-->
+<!--        <div class="layui-input-block">-->
+<!--            <button type="button" onclick="doSave();" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>-->
+<!--            <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+<!--        </div>-->
+<!--    </div>-->
+</form>
+
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    var $,layer;
+    layui.use(['form','laydate'], function(){
+        var laydate = layui.laydate;
+        $ = layui.jquery;
+        layer = layui.layer;
+        //日期
+
+    })
+
+
+
+</script>
+
+
+</body>
+</html>

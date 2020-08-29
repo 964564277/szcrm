@@ -6,4 +6,10 @@ import com.gyf.szcrm.model.PageResult;
 public interface ICourseOrderService {
     public PageResult<CourseOrder> findPageResult(CourseOrder courseOrder,int page,int pageSize);
 
+    public void save(CourseOrder order);
+
+    public CourseOrder finByOrderId(String order_id);
+
+
+    public void deleteByOrderId(String order_id);
 }

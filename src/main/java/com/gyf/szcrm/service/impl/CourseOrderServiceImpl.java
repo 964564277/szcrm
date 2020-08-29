@@ -21,11 +21,29 @@ public class CourseOrderServiceImpl implements ICourseOrderService {
         PageResult<CourseOrder> result = new PageResult<>();
         result.setCode(0);
         Map<String, Object> params = new HashMap<>();
+        params.put("start",(page-1)*pageSize);
+        params.put("pageSize",pageSize);
         //获取总记录数
         int totalCount=orderMapper.findCountByMap(params);
         result.setCount(totalCount);
         List<CourseOrder>list=orderMapper.findListByMap(params);
         result.setData(list);
         return result;
+    }
+
+    @Override
+    public void save(CourseOrder order) {
+        orderMapper.insert(order);
+
+    }
+
+    @Override
+    public CourseOrder finByOrderId(String order_id) {
+        return orderMapper.finByOrderId(order_id);
+    }
+
+    @Override
+    public void deleteByOrderId(String order_id) {
+        orderMapper.deleteByOrderId(order_id);
     }
 }

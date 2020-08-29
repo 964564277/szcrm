@@ -6,6 +6,22 @@
                 select count(*)from t_course_order;
         </select>
         <select id="findListByMap" parameterType="map" resultType="courseOrder">
-                select*from t_course_order;
+                select*from t_course_order order by order_date desc limit #{start},#{pageSize};
         </select>
+
+        <insert id="insert" parameterType="courseOrder">
+                insert into t_course_order(uuid,order_id,name,wechat_no,wechat_mark
+                ,qq_no,tel,course_name,course_price,order_date,update_datetime,remark)
+                values (UUID(),UUID(),#{name},#{wechat_no},#{wechat_mark},
+                #{qq_no},#{tel},#{course_name},#{course_price},#{order_date},current_timestamp()
+                ,#{remark})
+        </insert>
+        
+        <select id="finByOrderId" parameterType="string" resultType="courseOrder">
+                select*from t_course_order where order_id=#{order_id};
+        </select>
+
+        <delete id="deleteByOrderId" parameterType="string">
+        delete from t_course_order where order_id=#{order_id};
+        </delete>
 </mapper>
