@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+    <script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+</head>
+<body>
+
+<form class="layui-form" action="" id="form1">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-inline">
+                <input type="hidden" name="order_id" th:value="${order.order_id}">
+                <input type="text" name="name" th:value="${order.name}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">WeChat号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="wechat_no" th:value="${order.wechat_no}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">WeChat备注</label>
+            <div class="layui-input-inline">
+                <input type="text" name="wechat_mark" th:value="${order.wechat_mark}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">QQ</label>
+            <div class="layui-input-inline">
+                <input type="tel" name="qq_no" th:value="${order.qq_no}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">手机</label>
+            <div class="layui-input-inline">
+                <input type="text" name="tel" th:value="${order.tel}" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">购买课程</label>
+            <div class="layui-input-inline">
+                <select name="course_name"  id="course_name">
+                    <option value="">直接选择或搜索选择</option>
+                    <option value="2018-Java全套课程">2018-Java全套课程</option>
+                    <option value="2019-Swing从入门到实战">2019-Swing从入门到实战</option>
+                    <option value="2019-SpringBoot后台CRM项目">2019-SpringBoot后台CRM项目</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">购买价格</label>
+            <div class="layui-input-inline">
+                <input type="text" name="course_price" th:value="${order.course_price}"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">购买日期</label>
+            <div class="layui-input-inline">
+                <input type="text" name="order_date" th:value="${order.order_date}" id="order_date" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" onclick="doSave();" class="layui-btn" lay-submit="" lay-filter="demo1">提交修改</button>
+<!--            <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+        </div>
+    </div>
+</form>
+
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script th:inline="javascript">
+    var $,layer;
+    layui.use(['form','laydate'], function(){
+        var laydate = layui.laydate;
+        $ = layui.jquery;
+        layer = layui.layer;
+        //日期
+        laydate.render({
+            elem: '#order_date'
+        });
+        var course_name_value=[[${order.course_name}]]
+    var select='dd[lay-value='+course_name_value+']';
+        $('#course_name').siblings("div.layui-form-select").find('dl').find(select).click();
+
+
+
+    })
+
+
+    function doSave() {
+        //alert("xxx");
+        //发送post请求
+        //  语法：$.post(url,data,callback,type);
+        //   url(必须):发送请求的地址，String类型
+        //   data(可选):发送给后台的数据，以key/value形式{a:value1,b:value2}，即json格式
+        //  callback(可选):请求成功后的回调函数。因此，在后台的处理中，需要给JSONObject put一个是否成功的值，见下面例子。
+        //   type(可选):即第二个参数data的数据类型。如果有data传递给后台，则需要加上该类型。
+        var requestData = $("#form1").serialize();
+
+        $.post("/courseorder/save",requestData,function (responseData) {
+            console.log(responseData);
+            if(responseData.success == 1){
+                layer.alert("修改成功",{yes:function () {
+                        parent.layer.closeAll();
+                    }});
+            }else{
+                layer.alert("修改失败",{yes:function () {
+                        parent.layer.closeAll();
+                    }});
+            }
+        });
+    }
+</script>
+
+
+</body>
+</html>

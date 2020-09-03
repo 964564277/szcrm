@@ -28,8 +28,9 @@ public class CourseOrderController {
     page 显示的当前页
     limit 每次显示多少条
      */
-    public PageResult<CourseOrder>listJson(int page,int limit){
-        PageResult<CourseOrder> result = orderService.findPageResult(null,page,limit);
+    public PageResult<CourseOrder>listJson(CourseOrder condition,int page,int limit){
+        System.out.println(condition);
+        PageResult<CourseOrder> result = orderService.findPageResult(condition,page,limit);
 
         return result;
     }
@@ -53,12 +54,27 @@ public class CourseOrderController {
         orderService.deleteByOrderId(order_id);
         return result;
     }
+
+
+    @RequestMapping("edit")
+
+    public String edit(Model model,String order_id){
+        System.out.println("修改订单order_id"+order_id);
+        CourseOrder order=orderService.finByOrderId(order_id);
+        model.addAttribute("order",order);
+        return "courseorder/edit";
+    }
     @RequestMapping("/save")
     @ResponseBody
     public CURDResult save(CourseOrder order){
-        System.out.println(order);
         CURDResult result=new CURDResult();
-        orderService.save(order);
+        if(order.getOrder_id()==null||order.getOrder_id().length()==0){
+            orderService.save(order);
+
+        }else {
+            orderService.update(order);
+        }
+        System.out.println(order);
         return result;
 
     }

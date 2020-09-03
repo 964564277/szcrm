@@ -11,7 +11,36 @@
     <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
 </head>
 <body>
+<br>
+<form class="layui-form" action="" id="searchForm">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">WeChat号</label>
+            <div class="layui-input-inline">
+                <input type="text" name="wechat_no" id="wechat_no" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">WeChat备注</label>
+            <div class="layui-input-inline">
+                <input type="text" name="wechat_mark" id="wechat_mark" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">QQ</label>
+            <div class="layui-input-inline">
+                <input type="text" name="qq_no" id="qq_no" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline">
+                <button type="button" onclick="doSearch();" class="layui-btn" lay-submit="" lay-filter="demo1">搜索</button>
+                <button type="reset" class="layui-btn ">reset</button>
 
+            </div>
+        </div>
+    </div>
+
+</form>
 <table class="layui-hide" id="test" lay-filter="test"></table>
 
 <script type="text/html" id="toolbarDemo">
@@ -31,9 +60,9 @@
 <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
 
 <script>
-    var $;
+    var $, table;
     layui.use('table', function(){
-        var table = layui.table;
+         table = layui.table;
         $=layui.jquery;
         //温馨提示：默认由前端自动合计当前行数据。从 layui 2.5.6 开始： 若接口直接返回了合计行数据，则优先读取接口合计行数据。
         //详见：https://www.layui.com/doc/modules/table.html#totalRow
@@ -58,6 +87,7 @@
             ]
             ]
             ,page: true
+            ,id:'orderTable'
         });
 
         //工具栏事件
@@ -134,12 +164,38 @@
 
                 });
             } else if(layEvent === 'edit'){ //编辑
-
+                layer.open({
+                    type:2,
+                    offset:'auto',
+                    title:'修改课程订单',
+                    content:'/courseorder/edit?order_id='+orderId,
+                    area:['1000px','600px'],
+                    btn:'关闭全部',
+                    btnAlign:'c',
+                    yes:function () {
+                        layer.closeAll();
+                    }
+                });
             }
 
         });
-    });
 
+    });
+    function doSearch(){
+        //通过jquery获取参数
+        var wechat_no=$("#wechat_no").val();
+        var wechat_mark=$("#wechat_mark").val();
+        var qq_no=$("#qq_no").val();
+        table.reload('orderTable',{
+            where:{
+                wechat_no:wechat_no,
+                wechat_mark:wechat_mark,
+                qq_no:qq_no,
+            },page:{
+                curr: 1
+            }
+        });
+    }
 
 </script>
 
